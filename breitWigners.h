@@ -28,6 +28,9 @@ adouble abs(std::complex<adouble> z){
 	adouble squared = std::real(z*std::conj(z));
 	return pow(squared,0.5);
 };
+adouble sqrt(adouble x){
+	return pow(x,0.5);
+};
 #endif//ADOL_ON
 
 const double PION_MASS 	= 0.139;
@@ -51,13 +54,13 @@ template<typename xdouble> xdouble barrierFactor(xdouble q, int L){
 	if (L == 0){
 		res=1.;
 	}else if (L==1){
-		res=pow(2*z/(z+1),0.5);
+		res=sqrt(2*z/(z+1));
 	}else if (L==2){
-		res=pow(13*z*z/((z-3)*(z-3)+9*z),0.5);
+		res=sqrt(13*z*z/((z-3)*(z-3)+9*z));
 	}else if (L==3){
-		res=pow(277*z*z*z/(z*(z-15)*(z-15)+9*pow(2*z-5,2)),0.5);
+		res=sqrt(277*z*z*z/(z*(z-15)*(z-15)+9*pow(2*z-5,2)));
 	}else if (L==4){
-		res=pow(12746*pow(z,4)/(pow(z*z-45*z+105,2)+25*z*pow(2*z-21,2)),0.5);
+		res=sqrt(12746*pow(z,4)/(pow(z*z-45*z+105,2)+25*z*pow(2*z-21,2)));
 	} else {
 		std::cerr << "breitWigners.h: Error: Barrier factors not defined for L =" << L <<std::endl;
 		res =0.;
@@ -205,7 +208,7 @@ template< typename xdouble> std::complex<xdouble> bw(double m, std::vector<xdoub
 		xdouble G = G0*	bowler_integral_table<double>(m)/bowler_integral_table<xdouble>(m0) * m0/m;
 		std::complex<xdouble> denominator = std::complex<xdouble>(m0*m0-m*m,-m0*G);
 
-		return std::complex<xdouble>(pow(m0*G0,.5),0)/denominator;
+		return std::complex<xdouble>(sqrt(m0*G0),0)/denominator;
 	};
 	if (6==model){ // Flatte (as in the 3 charged pion release-note from Sep2013
 		xdouble m0 = param[0];
@@ -451,7 +454,7 @@ template< typename xdouble> std::complex<xdouble> bw(double m, std::vector<xdoub
 		if(S == S1){
 			return std::complex<xdouble>(0.,0.);
 		};
-		double R1 = pow(1. - 4.*WPI*WPI/S,0.5); // PI+-
+		double R1 = sqrt(1. - 4.*WPI*WPI/S); // PI+-
 		double RR2  = 0.;
 		double RI2  = 0.;
 		double RKC  = pow((1. - 4.*WKC*WKC/S)*(1. - 4.*WKC*WKC/S),0.25); // K+-
@@ -511,19 +514,19 @@ template< typename xdouble> std::complex<xdouble> bw(double m, std::vector<xdoub
 		xdouble R1   = 4.94;
 
 		xdouble S = m*m;
-		xdouble pabs = pow(std::complex<xdouble>(1-4*wPi*wPi/S,0.),.5).real();
+		xdouble pabs = sqrt(std::complex<xdouble>(1-4*wPi*wPi/S,0.)).real();
 		
 		xdouble E = m/2;
 		xdouble E0= wRho/2;
 
-		xdouble P0 = pow(E0*E0 - wPi*wPi,.5);
-		xdouble P  = pow(std::complex<xdouble>(E*E-wPi*wPi,0.),.5).real();
+		xdouble P0 = sqrt(E0*E0 - wPi*wPi);
+		xdouble P  = sqrt(std::complex<xdouble>(E*E-wPi*wPi,0.)).real();
 
 		xdouble FD10 = 1.+ P0*P0*R1*R1;
 		xdouble FD1  = 1.+ P*P*R1*R1;
 		
 		xdouble G = GRho * (P*P*P/P0/P0/P0) * FD10/FD1;
-		xdouble C = pow(G*wRho*wRho/P,.5)/P;
+		xdouble C = sqrt(G*wRho*wRho/P)/P;
 		
 		xdouble A = wRho*wRho - S;
 		xdouble B = wRho * G;
