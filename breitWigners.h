@@ -10,6 +10,9 @@
 #include <string>
 // double mPi=1.3957018;///\pm0.00035MeV // Particle Data Booklet 2012
 
+#ifndef AMP_FUNCTIONS_CILLY_BO
+#define AMP_FUNCTIONS_CILLY_BO
+
 #ifdef ADOL_ON // Some function on std::complex<adouble>, needed for automatic differentiation.
 #include <adolc/adolc.h>  
 std::complex<adouble> log(std::complex<adouble> z){
@@ -123,11 +126,11 @@ xdouble bowler_integral_table(xdouble m){
 		return 0.;
 	};
 };
-
+#endif//AMP_FUNCTIONS_CILLY_BO
 //////////////////////////////////////  BREIT WIGNER DEFINITIONS  //////////////////////////////////////////////////////////////
 
 
-template< typename xdouble> std::complex<xdouble> bw(double m, std::vector<xdouble> &param, int model, int L=0){ 	// Declare parametrization also in 'getNpars()'. Otherwise, the chi2 doesn't know 
+template<typename xdouble> std::complex<xdouble> bw(double m, std::vector<xdouble> &param, int model, int L=0){ 	// Declare parametrization also in 'getNpars()'. Otherwise, the chi2 doesn't know 
 	if (-1==model) {											// the number of parameters. It will then work with 20. Any function, with more than 20
 		return std::complex<xdouble>(1.,0.);								// parameters which was not declared in 'getNpars()' will crash.
 	};													// First paramters have to be given, then constants (the according numbers are 
